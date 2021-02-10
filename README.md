@@ -8,10 +8,10 @@ The Guitar Looper is a product described as being an effects looper manager, whe
 
 Goals:
       1. Create a user friendly mobile app.
-      2. Be able to easily add features to app.
-      3. Be able to have multiple presets.
-      4. Have a flawless connection from phone to device through Bluetooth.
-      5. Have application work as an effect looper manager.
+      1. Be able to easily add features to app.
+      1. Be able to have multiple presets.
+      1. Have a flawless connection from phone to device through Bluetooth.
+      1. Have application work as an effect looper manager.
       
 | Names           | Title         |
 | -------------   | ------------- |
