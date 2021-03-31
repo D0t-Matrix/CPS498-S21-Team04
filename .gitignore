@@ -57,3 +57,4 @@ dkms.conf
 # Fortran module files
 *.mod
 *.smod
+/ESP32-BLE test/.vs/ESP32-BLE test/v16/Browse.VC.opendb
