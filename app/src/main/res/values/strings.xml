@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">GuitarFinal</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_dSettings">Device Settings</string>
+    <string name="title_edit">Edit</string>
+</resources>
