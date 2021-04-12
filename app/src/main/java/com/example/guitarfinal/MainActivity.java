@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
-    private Button preset1Select,preset2Select,preset3Select,preset4Select,preset5Select,preset6Select,preset7Select,preset8Select;
+    private Button preset1Select,preset2Select,preset3Select,preset4Select,preset5Select,preset6Select;
 
 
     ImageView image_view;
@@ -65,10 +65,6 @@ public class MainActivity extends AppCompatActivity {
 
         switch(item.getItemId()){
             case R.id.editMenu:
-                //Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.navigation_edit);
-                //getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                //getSupportActionBar().setDisplayShowHomeEnabled(false);
-                //getSupportActionBar().setHomeButtonEnabled(false);
                 selectEditPreset();
                 return true;
 
@@ -87,8 +83,6 @@ public class MainActivity extends AppCompatActivity {
         preset4Select = (Button) editPresetView.findViewById(R.id.button12);
         preset5Select = (Button) editPresetView.findViewById(R.id.button13);
         preset6Select = (Button) editPresetView.findViewById(R.id.button14);
-        preset7Select = (Button) editPresetView.findViewById(R.id.button15);
-        preset8Select = (Button) editPresetView.findViewById(R.id.button16);
 
         dialogBuilder.setView(editPresetView);
         dialog = dialogBuilder.create();
@@ -111,15 +105,14 @@ public class MainActivity extends AppCompatActivity {
         preset4Select.setOnClickListener(clicker);
         preset5Select.setOnClickListener(clicker);
         preset6Select.setOnClickListener(clicker);
-        preset7Select.setOnClickListener(clicker);
-        preset8Select.setOnClickListener(clicker);
+
 
 
     }
 
     //Next thre methods allow you to open and select image for the home background image
     public void btnClick(View v){
-        image_view = findViewById(R.id.imageView);
+        image_view = findViewById(R.id.myImage);
         btn = findViewById(R.id.cb);
 
         openImageForm();

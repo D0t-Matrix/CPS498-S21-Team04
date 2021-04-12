@@ -56,30 +56,6 @@
         app:layout_constraintTop_toBottomOf="@+id/button4" />
 
     <Button
-        android:id="@+id/button7"
-        android:layout_width="187dp"
-        android:layout_height="134dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="7dp"
-        android:layout_marginEnd="7dp"
-        android:text="Preset 7"
-        app:layout_constraintEnd_toStartOf="@+id/button8"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button5" />
-
-    <Button
-        android:id="@+id/button8"
-        android:layout_width="187dp"
-        android:layout_height="134dp"
-        android:layout_marginStart="7dp"
-        android:layout_marginTop="7dp"
-        android:layout_marginEnd="20dp"
-        android:text="Preset 8"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button7"
-        app:layout_constraintTop_toBottomOf="@+id/button6" />
-
-    <Button
         android:id="@+id/button1"
         android:layout_width="187dp"
         android:layout_height="134dp"
