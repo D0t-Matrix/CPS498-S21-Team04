@@ -1,6 +1,5 @@
 package com.example.guitarfinal;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -12,8 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
+import com.example.guitarfinal.data.AppDatabase;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -23,12 +22,16 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.room.Room;
 
 public class MainActivity extends AppCompatActivity {
 
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
     private Button preset1Select,preset2Select,preset3Select,preset4Select,preset5Select,preset6Select;
+
+
+    AppDatabase db;
 
 
     ImageView image_view;
@@ -50,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+        //Database
+        db = Room.databaseBuilder(getApplicationContext(),
+                AppDatabase.class, "GuitarLooperDatabase").build();
     }
 
     @Override
@@ -110,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //Next thre methods allow you to open and select image for the home background image
+    //methods allow you to open and select image for the home background image
     public void btnClick(View v){
         image_view = findViewById(R.id.myImage);
         btn = findViewById(R.id.cb);

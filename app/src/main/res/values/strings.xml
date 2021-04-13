@@ -4,4 +4,19 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_dSettings">Device Settings</string>
     <string name="title_edit">Edit</string>
+
+
+
+    //Preset 1
+    <bool name="p1_Channel1">false</bool>
+    <bool name="p1_Channel2">false</bool>
+    <bool name="p1_Channel3">false</bool>
+    <bool name="p1_Channel4">true</bool>
+    <bool name="p1_Channel5">false</bool>
+    <bool name="p1_Channel6">false</bool>
+    <bool name="p1_Channel7">false</bool>
+    <bool name="p1_Channel8">false</bool>
+    <string name="p1_Name">Preset 1</string>
+
+
 </resources>
