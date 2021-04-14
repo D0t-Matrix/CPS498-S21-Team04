@@ -12,9 +12,13 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.guitarfinal.MainActivity;
 import com.example.guitarfinal.R;
+import com.example.guitarfinal.data.Preset;
 
 public class HomeFragment extends Fragment {
+
+
 
     private HomeViewModel homeViewModel;
 
@@ -30,6 +34,14 @@ public class HomeFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
+
+
+
+
+
+
+
         return root;
     }
 }

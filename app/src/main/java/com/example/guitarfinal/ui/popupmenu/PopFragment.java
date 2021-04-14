@@ -1,6 +1,5 @@
-package com.example.guitarfinal.ui.dashboard;
+package com.example.guitarfinal.ui.popupmenu;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,33 +19,26 @@ import com.example.guitarfinal.data.Preset;
 
 import java.util.List;
 
-public class DashboardFragment extends Fragment {
+public class PopFragment extends Fragment {
 
     List<Preset> p;
 
-    private DashboardViewModel dashboardViewModel;
+    private PopViewModel popViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-
-            }
-        });
+        popViewModel =
+                new ViewModelProvider(this).get(PopViewModel.class);
+        View root = inflater.inflate(R.layout.popup, container, false);
+        final TextView textView = root.findViewById(R.id.text_home);
 
 
-
-        Button b1 = (Button)root.findViewById(R.id.button1);
-        Button b2 = (Button)root.findViewById(R.id.button2);
-        Button b3 = (Button)root.findViewById(R.id.button3);
-        Button b4 = (Button)root.findViewById(R.id.button4);
-        Button b5 = (Button)root.findViewById(R.id.button5);
-        Button b6 = (Button)root.findViewById(R.id.button6);
-
+        Button b1 = (Button)root.findViewById(R.id.button9);
+        Button b2 = (Button)root.findViewById(R.id.button10);
+        Button b3 = (Button)root.findViewById(R.id.button11);
+        Button b4 = (Button)root.findViewById(R.id.button12);
+        Button b5 = (Button)root.findViewById(R.id.button13);
+        Button b6 = (Button)root.findViewById(R.id.button14);
         p = ((MainActivity)getActivity()).returnList();
         b1.setText(p.get(0).presetName);
         b2.setText(p.get(1).presetName);
@@ -54,6 +46,11 @@ public class DashboardFragment extends Fragment {
         b4.setText(p.get(3).presetName);
         b5.setText(p.get(4).presetName);
         b6.setText(p.get(5).presetName);
+
+
+
+
+
 
         return root;
     }

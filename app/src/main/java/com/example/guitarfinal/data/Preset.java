@@ -1,5 +1,7 @@
 package com.example.guitarfinal.data;
 
+import android.net.Uri;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
@@ -8,7 +10,7 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "presets")
 public class Preset {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int uid;
 
     @ColumnInfo(name = "preset_name")
@@ -37,6 +39,9 @@ public class Preset {
 
     @ColumnInfo
     public boolean channel8;
+
+    @ColumnInfo
+    public String picture;
 
 
 }
