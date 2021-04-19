@@ -57,3 +57,7 @@ dkms.conf
 # Fortran module files
 *.mod
 *.smod
+
+# VSCode extensions
+.history/
+.vscode/
