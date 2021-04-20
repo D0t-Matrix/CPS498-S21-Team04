@@ -61,3 +61,4 @@ dkms.conf
 # VSCode extensions
 .history/
 .vscode/
+.vs/
