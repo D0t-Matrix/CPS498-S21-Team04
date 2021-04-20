@@ -10,7 +10,7 @@ public class NotificationsViewModel extends ViewModel {
 
     public NotificationsViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is device settings page.\n We will add device info after we incorperate bluetooth.");
+        mText.setValue("");
     }
 
     public LiveData<String> getText() {

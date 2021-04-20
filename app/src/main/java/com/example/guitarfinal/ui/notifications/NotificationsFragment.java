@@ -1,9 +1,15 @@
 package com.example.guitarfinal.ui.notifications;
 
+import android.app.AlertDialog;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,9 +20,16 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.guitarfinal.R;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Set;
+
+
 public class NotificationsFragment extends Fragment {
 
     private NotificationsViewModel notificationsViewModel;
+
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -30,6 +43,13 @@ public class NotificationsFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
+
+
         return root;
     }
+
+
+
+
 }
