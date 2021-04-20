@@ -1,5 +1,20 @@
+/**
+ * File Name: Basic_Relay_Control_NoBT.ino
+ *
+ * Author: Dominic Kenney
+ *
+ * Purpose: Have test-code to have a baseline to test functionality of the hardware.
+ *
+ * Notes: This file is a basic project for use in testing the functionality of the physical
+ *  Switcher, without having dependency on a bluetooth connection.
+ *
+ * Revisions: Set all stored values to have channel 8 stay off,
+ *  due to lacking surface area for the 8th channel.
+ *
+ **/
 
 #pragma region globalVars
+
 bool btn1[] = {1, 0, 1, 0, 1, 0, 0, 0};
 bool btn2[] = {0, 1, 0, 1, 0, 1, 0, 0};
 bool btn3[] = {1, 1, 1, 1, 1, 1, 1, 0};
@@ -18,6 +33,7 @@ int Relays[] = {18, 19, 21, 22, 23, 25, 26, 27};
 #pragma endregion
 
 #pragma region BTN Interrupts
+
 void IRAM_ATTR Btn1Pushed()
 {
   for (int i = 0; i < 8; i++)
@@ -53,11 +69,13 @@ void IRAM_ATTR Btn6Pushed()
   for (int i = 0; i < 8; i++)
     digitalWrite(Relays[i], btn6[i]);
 }
+
 #pragma endregion
 
 void setup()
 {
-  // put your setup code here, to run once:
+#pragma region set pinModes
+
   for (int i = 0; i < 8; i++)
   {
     pinMode(Relays[i], OUTPUT);
@@ -70,16 +88,23 @@ void setup()
   pinMode(Btn5, INPUT_PULLUP);
   pinMode(Btn6, INPUT_PULLUP);
 
+#pragma endregion
+
+#pragma region Creating event - Interrupts for buttons
+
   attachInterrupt(Btn1, Btn1Pushed, FALLING);
   attachInterrupt(Btn2, Btn2Pushed, FALLING);
   attachInterrupt(Btn3, Btn3Pushed, FALLING);
   attachInterrupt(Btn4, Btn4Pushed, FALLING);
   attachInterrupt(Btn5, Btn5Pushed, FALLING);
   attachInterrupt(Btn6, Btn6Pushed, FALLING);
+
+#pragma endregion
 }
 
+/// Primary loop function for use in Arduino-based development.
 void loop()
 {
-  // put your main code here, to run repeatedly:
+  //runs a basic delay so that there is a looping task.
   delay(0.1);
 }
