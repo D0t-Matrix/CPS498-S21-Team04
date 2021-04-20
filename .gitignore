@@ -60,5 +60,5 @@ dkms.conf
 
 # Gradle files
 *.lock
-.gradle/
-.idea/
+*.gradle/
+*.idea/
