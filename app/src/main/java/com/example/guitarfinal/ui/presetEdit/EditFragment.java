@@ -1,5 +1,6 @@
 package com.example.guitarfinal.ui.presetEdit;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -58,6 +60,8 @@ public class EditFragment extends Fragment {
                 preset.channel8 = switch8.isChecked();
                 preset.presetName = name.getEditableText().toString();
                 ((MainActivity) getActivity()).savePreset(preset);
+                Toast.makeText(getActivity(),(preset.presetName + " has been saved."),Toast.LENGTH_SHORT).show();
+                moveToNewActivity();
             }
         });
 
@@ -74,8 +78,11 @@ public class EditFragment extends Fragment {
         return view;
     }
 
-    public void savePreset1(Preset p){
-        ((MainActivity)getActivity()).savePreset(p);
-    }
 
+    private void moveToNewActivity () {
+        Intent i = new Intent(getActivity(), MainActivity.class);
+        startActivity(i);
+        ((MainActivity) getActivity()).overridePendingTransition(0, 0);
+
+    }
 }

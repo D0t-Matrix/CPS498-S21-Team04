@@ -1,9 +1,11 @@
 package com.example.guitarfinal.ui.home;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,6 +23,9 @@ public class HomeFragment extends Fragment {
 
 
     private HomeViewModel homeViewModel;
+    ImageView imageHolder;
+    Preset preset;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -37,6 +42,14 @@ public class HomeFragment extends Fragment {
 
 
 
+        imageHolder = (ImageView) root.findViewById(R.id.myImage);
+
+        preset = ((MainActivity) getActivity()).getImage();
+
+        ((MainActivity) getActivity()).savePreset(preset);
+
+        if(preset.picture != null)
+            imageHolder.setImageURI(Uri.parse(preset.picture));
 
 
 

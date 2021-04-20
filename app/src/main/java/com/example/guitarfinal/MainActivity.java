@@ -411,6 +411,7 @@ public class MainActivity extends AppCompatActivity {
         preset4 = getOrCreateNewPreset(presets.size() > 3 ? presets.get(3) : null);
         preset5 = getOrCreateNewPreset(presets.size() > 4 ? presets.get(4) : null);
         preset6 = getOrCreateNewPreset(presets.size() > 5 ? presets.get(5) : null);
+        preset1.picture = null;
 
         //____________________BLUETOOTH____________________________
             findViewByIdes();
@@ -428,6 +429,10 @@ public class MainActivity extends AppCompatActivity {
     public List<Preset> returnList(){
         presets = presetDao.getAll();
         return presets;
+    }
+
+    public Preset getImage(){
+        return preset1;
     }
 
     public void savePreset(Preset preset){
@@ -466,6 +471,12 @@ public class MainActivity extends AppCompatActivity {
         preset4Select = (Button) editPresetView.findViewById(R.id.button12);
         preset5Select = (Button) editPresetView.findViewById(R.id.button13);
         preset6Select = (Button) editPresetView.findViewById(R.id.button14);
+        preset1Select.setText(preset1.presetName);
+        preset2Select.setText(preset2.presetName);
+        preset3Select.setText(preset3.presetName);
+        preset4Select.setText(preset4.presetName);
+        preset5Select.setText(preset5.presetName);
+        preset6Select.setText(preset6.presetName);
 
         dialogBuilder.setView(editPresetView);
         dialog = dialogBuilder.create();
@@ -545,8 +556,10 @@ public class MainActivity extends AppCompatActivity {
                 data != null && data.getData() != null){
 
             imageUri = data.getData();
-            //preset1.picture = imageUri.toString();
-            image_view.setImageURI(imageUri);
+
+            preset1.picture = imageUri.toString();
+            image_view.setImageURI(Uri.parse(preset1.picture));
+            savePreset(preset1);
 
         }
 
