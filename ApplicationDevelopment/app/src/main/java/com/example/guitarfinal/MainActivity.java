@@ -1,3 +1,14 @@
+//|---------------------------------------------------------------------------|
+//|    FILE NAME: MainActivity.java                                           |
+//|                                                                           |
+//|    AUTHOR   :  Alex Gennero & Mitchell Murphy                             |
+//|                                                                           |
+//|    PURPOSE  :  When opening the app it called the onCreate method         |
+//|                Main activity also controls the buttons used on the app    |
+//|                                                                           |
+//|---------------------------------------------------------------------------|
+
+
 package com.example.guitarfinal;
 
 import android.Manifest;
@@ -61,69 +72,46 @@ import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
+    //Define Variables needed
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
     private Button preset1Select,preset2Select,preset3Select,preset4Select,preset5Select,preset6Select;
-
-
-    //Button saveButton1 = (Button) findViewById(R.id.saveButton);
     Preset selectedPreset;
-
-    public Preset getSelectedPreset() {
-        return selectedPreset;
-    }
-
-
-
-
     EditFragment editFrag;
-
     AppDatabase db;
-
     ImageView image_view;
     Button btn;
     Uri imageUri;
     public static final int IMAGE_CODE = 1;
-
     Preset preset1 = new Preset();
     Preset preset2 = new Preset();
     Preset preset3 = new Preset();
     Preset preset4 = new Preset();
     Preset preset5 = new Preset();
     Preset preset6 = new Preset();
-
     List<Preset> presets;
     PresetDao presetDao;
-
-
-
-    //___________________________BLUETOOTH__________________________________________
-
     BluetoothAdapter bluetoothAdapter;
     int REQUEST_ENABLE_BLUETOOTH = 1;
-
-
-
-
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
-//    public void onEnableClicked(View v){
-//        if(!bluetoothAdapter.isEnabled()){
-//            checkBTPermissions();
-//            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-//            startActivityForResult(enableIntent, REQUEST_ENABLE_BLUETOOTH);
-//        }
-//
-//
-//    }
-
-
-
-
+    /**
+     * Author: Alex Gennero
+     * Purpose: This function returns the Preset that is selected when opening Dialog to edit a Preset.
+     * @return selectedPreset
+     */
+    public Preset getSelectedPreset() {
+        return selectedPreset;
+    }
 
     public MainActivity() {
     }
 
+
+    /** Author: Alex Gennero
+     *  Purpose: When the application launches the OnCreate() function runs that shows the Home Page and the Bottom Navigation Menu.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -138,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-        //Database
+        //Database Creator
         db = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, "GuitarLooperDatabase")
                 .allowMainThreadQueries()
@@ -146,6 +134,8 @@ public class MainActivity extends AppCompatActivity {
 
         presetDao = db.presetDao();
         presets = presetDao.getAll();
+
+        //If the preset is empty, it will call getOrCreateNewPreset which will insert the preset from the Room Database.
         preset1 = getOrCreateNewPreset(presets.size() > 0 ? presets.get(0) : null);
         preset2 = getOrCreateNewPreset(presets.size() > 1 ? presets.get(1) : null);
         preset3 = getOrCreateNewPreset(presets.size() > 2 ? presets.get(2) : null);
@@ -156,9 +146,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-
-
+    /** Author: Alex Gennero
+     *  Purpose: In order to change the names of the buttons on the fragment_dashboard.xml when updated in the Room Database
+     *           you need to get all of the presets and return them in DashboardFragment.java
+     * @return presets
+     */
     public List<Preset> returnList(){
         presets = presetDao.getAll();
         return presets;
@@ -168,12 +160,20 @@ public class MainActivity extends AppCompatActivity {
         return preset1;
     }
 
+    /** Author: Alex Gennero
+     *  Purpose: Saves the preset to the Room Database.
+     * @param preset
+     */
     public void savePreset(Preset preset){
         PresetDao presetDao = db.presetDao();
         presetDao.update(preset);
     }
 
-
+    /** Author: Alex Gennero
+     *  Purpose: Creates the edit button on the top right of the screen.
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
@@ -181,6 +181,11 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    /** Author: Alex Gennero
+     *  Purpose: When pressing the menu that is created in onCreateOptionsMenu() it will call selectEditPreset()
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
@@ -188,22 +193,28 @@ public class MainActivity extends AppCompatActivity {
             case R.id.editMenu:
                 selectEditPreset();
                 return true;
-
             default:
                 return super.onOptionsItemSelected(item);
 
         }
     }
 
+    /** Author: Alex Gennero
+     *  Purpose: Creates a pop up menu that allows the user to select which preset they would like to edit.
+     */
     public void selectEditPreset(){
-        dialogBuilder = new AlertDialog.Builder(this);
-        View editPresetView = getLayoutInflater().inflate(R.layout.popup, null);
+        dialogBuilder = new AlertDialog.Builder(this); //Creates the popup dialog
+        View editPresetView = getLayoutInflater().inflate(R.layout.popup, null); //Creates the view for the popup
+
+        //Identify which buttons are on the popup menu.
         preset1Select = (Button) editPresetView.findViewById(R.id.button9);
         preset2Select = (Button) editPresetView.findViewById(R.id.button10);
         preset3Select = (Button) editPresetView.findViewById(R.id.button11);
         preset4Select = (Button) editPresetView.findViewById(R.id.button12);
         preset5Select = (Button) editPresetView.findViewById(R.id.button13);
         preset6Select = (Button) editPresetView.findViewById(R.id.button14);
+
+        //Changes the name of the buttons to the name defined in Room Database
         preset1Select.setText(preset1.presetName);
         preset2Select.setText(preset2.presetName);
         preset3Select.setText(preset3.presetName);
@@ -211,11 +222,12 @@ public class MainActivity extends AppCompatActivity {
         preset5Select.setText(preset5.presetName);
         preset6Select.setText(preset6.presetName);
 
+        //Shows the popup on screen
         dialogBuilder.setView(editPresetView);
         dialog = dialogBuilder.create();
         dialog.show();
 
-
+        //When a button is pressed it sets the selectedPreset to the corresponding preset.
         View.OnClickListener clicker = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -240,82 +252,78 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     default:
                         break;
-
                 }
                 Navigation.findNavController((Activity)v.getContext(), R.id.nav_host_fragment).navigate(R.id.navigation_edit);
                 getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                 getSupportActionBar().setDisplayShowHomeEnabled(false);
                 getSupportActionBar().setHomeButtonEnabled(false);
                 dialog.dismiss();
-
-
             }
         };
-
-
         preset1Select.setOnClickListener(clicker);
         preset2Select.setOnClickListener(clicker);
         preset3Select.setOnClickListener(clicker);
         preset4Select.setOnClickListener(clicker);
         preset5Select.setOnClickListener(clicker);
         preset6Select.setOnClickListener(clicker);
-
-
-
     }
 
-    ///<summary> Mitchell Murphy
-    ///
-    ///</summary>
+    /** Author: Mitchell Murphy
+     *  Purpose:
+     * @param v
+     */
     public void btnClick(View v){
         image_view = findViewById(R.id.myImage);
         btn = findViewById(R.id.cb);
-
         openImageForm();
-
     }
-    ///<summary> Mitchell Murphy
-    /// Opens the devices photos folder so the user can select an image for their home page background
-    ///</summary>
+
+    /** Author: Mitchell Murphy
+     *  Purpose: Opens the devices photos folder so the user can select an image for their home page background
+     */
     private void openImageForm() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, IMAGE_CODE);
-
     }
 
+    /** Author: Alex Gennero & Mitchell Murphy
+     *  Purpose: Receives image selected and sets to HomeBackground. Also, saves the Picture to the Room Database
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == IMAGE_CODE && resultCode==RESULT_OK &&
                 data != null && data.getData() != null){
-
             imageUri = data.getData();
-
             preset1.picture = imageUri.toString();
             image_view.setImageURI(Uri.parse(preset1.picture));
             savePreset(preset1);
-
         }
-
     }
 
+    /** Author: Alex Gennero
+     *  Purpose: When assigning preset1, ..., & preset6 to the data in our Room Database. This function checks if it is already filled. If it isn't it creates a new Preset and inserts the information.
+     * @param preset
+     * @return
+     */
     Preset getOrCreateNewPreset(Preset preset) {
         if (preset == null) {
             preset = new Preset();
             PresetDao presetDao = db.presetDao();
             presetDao.insertAll(preset);
         }
-
         return preset;
     }
 
-
-    ///<summary> Mitchell Murphy
-    /// This function checks to see what version of Android the users device is running and then requests permission if they are running Android lollipop or newer.
-    ///</summary>
+    /** Author: Mitchell Murphy
+     *  Purpose: This function checks to see what version of Android the users device is running and then requests permission if they are running Android lollipop or newer.
+     */
     private void checkBTPermissions(){
         if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP){
             int permissionsCheck = this.checkSelfPermission("Manifest.permission.ACCESS_FINE_LOCATION");
@@ -327,14 +335,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    ///<summary>Mitchell Murphy
-    /// (onPreset1Clicked - onPreset6Clicked)
-    /// 1st) Create a new thread in order to handle the data being sent so it does not overload the main thread.
-    /// 2nd) Check the Bluetooth permissions on the device and make sure that the user can use Bluetooth on their device
-    /// 3rd) Establish a connection to the ESP-32
-    /// 4th) Output the data that is stored in the preset
-    /// 5th) Close the socket
-    ///</summary>
+    /** Author: Mitchell Murphy
+     *  Purpose: (onPreset1Clicked - onPreset6Clicked)
+     *          1. Create a new thread in order to handle the data being sent so it does not overload the main thread.
+     *          2. Check the Bluetooth permissions on the device and make sure that the user can use Bluetooth on their device
+     *          3. Establish a connection to the ESP-32
+     *          4. Output the data that is stored in the preset
+     *          5. Close the socket
+     * @param v
+     */
     public void onPreset1Clicked(View v){
         new Thread(() -> {
             BluetoothManager manager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
@@ -342,7 +351,6 @@ public class MainActivity extends AppCompatActivity {
             checkBTPermissions();
             BluetoothDevice esp32 = bluetoothAdapter.getRemoteDevice("84:CC:A8:5C:F4:8E");
             System.out.println(esp32.getName());
-
             BluetoothSocket btSocket = null;
 
             int counter = 0;
@@ -361,6 +369,12 @@ public class MainActivity extends AppCompatActivity {
             try {
                 OutputStream outputStream = btSocket.getOutputStream();
                 String string = String.valueOf(preset1.channel1 + " " + preset1.channel2 + " " + preset1.channel3 + " " + preset1.channel4 + " " + preset1.channel5 + " " + preset1.channel6 + " " + preset1.channel7 + " " + preset1.channel8);
+
+//                if(preset1.channel1 == true)
+//                    string.concat("1");
+//                else
+//                    string.concat("0");
+
 
                 System.out.println("Channel Values in String: " + string);
                 StringBuffer sb = new StringBuffer();
@@ -411,10 +425,7 @@ public class MainActivity extends AppCompatActivity {
             }catch (IOException e){
                 e.printStackTrace();
             }
-
         }).start();
-
-
     }
 
     public void onPreset2Clicked(View v){
@@ -424,9 +435,7 @@ public class MainActivity extends AppCompatActivity {
             bluetoothAdapter = manager.getAdapter();
             BluetoothDevice esp32 = bluetoothAdapter.getRemoteDevice("84:CC:A8:5C:F4:8E");
             System.out.println(esp32.getName());
-
             BluetoothSocket btSocket = null;
-
             int counter = 0;
             do {
                 try {
@@ -493,10 +502,7 @@ public class MainActivity extends AppCompatActivity {
             }catch (IOException e){
                 e.printStackTrace();
             }
-
         }).start();
-
-
     }
 
     public void onPreset3Clicked(View v){
@@ -577,14 +583,15 @@ public class MainActivity extends AppCompatActivity {
             }catch (IOException e){
                 e.printStackTrace();
             }
-
         }).start();
-
 
     }
 
+    /**
+     *
+     * @param v
+     */
     public void onPreset4Clicked(View v){
-
         new Thread(() -> {
             checkBTPermissions();
             BluetoothManager manager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
@@ -650,7 +657,6 @@ public class MainActivity extends AppCompatActivity {
                 outputStream.write(hexResult.getBytes());
 
 
-
             }catch (IOException e){
                 e.printStackTrace();
             }
@@ -662,9 +668,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }).start();
-
-
     }
+
     public void onPreset5Clicked(View v){
 
         new Thread(() -> {
@@ -731,7 +736,6 @@ public class MainActivity extends AppCompatActivity {
                 outputStream.write(hexResult.getBytes());
 
 
-
             }catch (IOException e){
                 e.printStackTrace();
             }
@@ -743,7 +747,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }).start();
-
 
     }
 

@@ -1,3 +1,10 @@
+//|---------------------------------------------------------------------------|
+//|    CLASS    : AppDatabase.java by Alex Gennero                            |
+//|                                                                           |
+//|    PURPOSE  : Defines what databases are being used.                      |
+//|                                                                           |
+//|---------------------------------------------------------------------------|
+
 package com.example.guitarfinal.data;
 
 import androidx.room.Database;

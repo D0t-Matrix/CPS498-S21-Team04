@@ -1,3 +1,11 @@
+//|---------------------------------------------------------------------------|
+//|    CLASS    : EditFragment.java by Alex Gennero                           |
+//|                                                                           |
+//|    PURPOSE  : Creates the view for Edit Page                              |
+//|                                                                           |
+//|---------------------------------------------------------------------------|
+
+
 package com.example.guitarfinal.ui.presetEdit;
 
 import android.content.Intent;
@@ -34,7 +42,10 @@ public class EditFragment extends Fragment {
                 new ViewModelProvider(this).get(EditViewModel.class);
         view = inflater.inflate(R.layout.fragment_edit, container, false);
 
+        //gets the preset that was selected when on popup.
         preset = ((MainActivity)getActivity()).getSelectedPreset();
+
+        //Setting switches, buttons, & text box by finding them on the fragment_edit.xml
         Switch switch1 = (Switch)view.findViewById(R.id.switch1);
         Switch switch2 = (Switch)view.findViewById(R.id.switch2);
         Switch switch3 = (Switch)view.findViewById(R.id.switch3);
@@ -43,13 +54,13 @@ public class EditFragment extends Fragment {
         Switch switch6 = (Switch)view.findViewById(R.id.switch6);
         Switch switch7 = (Switch)view.findViewById(R.id.switch7);
         Switch switch8 = (Switch)view.findViewById(R.id.switch8);
-
         TextInputEditText name = (TextInputEditText)view.findViewById(R.id.editedText);
-
         saveButton2 = (Button) view.findViewById(R.id.saveButton);
+
         saveButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //When save button is pressed it sets the presets values.
                 preset.channel1 = switch1.isChecked();
                 preset.channel2 = switch2.isChecked();
                 preset.channel3 = switch3.isChecked();
@@ -59,12 +70,13 @@ public class EditFragment extends Fragment {
                 preset.channel7 = switch7.isChecked();
                 preset.channel8 = switch8.isChecked();
                 preset.presetName = name.getEditableText().toString();
-                ((MainActivity) getActivity()).savePreset(preset);
+                ((MainActivity) getActivity()).savePreset(preset); //Calls savePreset method inside of MainActivity.java
                 Toast.makeText(getActivity(),(preset.presetName + " has been saved."),Toast.LENGTH_SHORT).show();
                 moveToNewActivity();
             }
         });
 
+        //Setting if the switches are turned on depending if preset channel values are True/False.
         switch1.setChecked(preset.channel1);
         switch2.setChecked(preset.channel2);
         switch3.setChecked(preset.channel3);
@@ -78,7 +90,9 @@ public class EditFragment extends Fragment {
         return view;
     }
 
-
+    /** Author: Alex Gennero
+     *  Purpose: Sends user back to main page once saved.
+     */
     private void moveToNewActivity () {
         Intent i = new Intent(getActivity(), MainActivity.class);
         startActivity(i);

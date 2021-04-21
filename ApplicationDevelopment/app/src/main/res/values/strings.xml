@@ -1,26 +1,13 @@
+<!--Author: Alex Gennero & Mitchell Murphy-->
+<!--Purpose: Hardcode Strings into application-->
+
 <resources>
-    <string name="app_name">GuitarFinal</string>
+    <string name="app_name">Guitar Looper</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_dSettings">Device Settings</string>
     <string name="title_edit">Edit</string>
-
-    <string name="hello_world">Bluetooth Address</string>
     <string name="action_settings">Settings</string>
-
-    //Preset 1
-    <bool name="p1_Channel1">false</bool>
-    <bool name="p1_Channel2">false</bool>
-    <bool name="p1_Channel3">false</bool>
-    <bool name="p1_Channel4">true</bool>
-    <bool name="p1_Channel5">false</bool>
-    <bool name="p1_Channel6">false</bool>
-    <bool name="p1_Channel7">false</bool>
-    <bool name="p1_Channel8">false</bool>
-    <string name="p1_Name">Preset 1</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
 
 
 </resources>

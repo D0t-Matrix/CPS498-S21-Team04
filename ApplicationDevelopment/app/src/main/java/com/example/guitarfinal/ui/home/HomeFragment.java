@@ -1,3 +1,11 @@
+//|---------------------------------------------------------------------------|
+//|    CLASS    : HomeFragment.java by Alex Gennero & Mitchell Murphy         |
+//|                                                                           |
+//|    PURPOSE  : Sets the view for the Home Page and sets picture            |
+//|                                                                           |
+//|---------------------------------------------------------------------------|
+
+
 package com.example.guitarfinal.ui.home;
 
 import android.net.Uri;

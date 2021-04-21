@@ -1,3 +1,12 @@
+//|---------------------------------------------------------------------------|
+//|    CLASS    : PresetDao.java by Alex Gennero                              |
+//|                                                                           |
+//|    PURPOSE  : Marks the class as a Data Access Object                     |
+//|                                                                           |
+//|    NOTES    : Gets all of the presets and allows to insert or update      |
+//|---------------------------------------------------------------------------|
+
+
 package com.example.guitarfinal.data;
 
 

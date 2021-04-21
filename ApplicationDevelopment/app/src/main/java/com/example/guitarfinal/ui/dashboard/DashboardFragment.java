@@ -1,3 +1,11 @@
+//|---------------------------------------------------------------------------|
+//|    CLASS    : DashboardFragment.java by Alex Gennero                      |
+//|                                                                           |
+//|    PURPOSE  : Creates the view for the Dashboard and sets the button names|
+//|                                                                           |
+//|---------------------------------------------------------------------------|
+
+
 package com.example.guitarfinal.ui.dashboard;
 
 import android.content.Intent;
@@ -37,8 +45,6 @@ public class DashboardFragment extends Fragment {
 
             }
         });
-
-
 
         Button b1 = (Button)root.findViewById(R.id.button1);
         Button b2 = (Button)root.findViewById(R.id.button2);

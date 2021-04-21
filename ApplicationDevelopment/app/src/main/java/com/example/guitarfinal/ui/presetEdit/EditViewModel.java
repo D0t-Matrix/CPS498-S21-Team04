@@ -10,7 +10,7 @@ public class EditViewModel extends ViewModel {
 
     public EditViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is home page.\nThis will show wether the device is connected or not.\nNeed more information.");
+        mText.setValue("");
     }
 
     public LiveData<String> getText() {

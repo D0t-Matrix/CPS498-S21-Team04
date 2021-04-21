@@ -1,3 +1,10 @@
+//|---------------------------------------------------------------------------|
+//|    CLASS    : Preset.java by Alex Gennero                                 |
+//|                                                                           |
+//|    PURPOSE  : All of the data that is going to be stored in the presets.  |
+//|                                                                           |
+//|---------------------------------------------------------------------------|
+
 package com.example.guitarfinal.data;
 
 import android.net.Uri;
@@ -42,6 +49,5 @@ public class Preset {
 
     @ColumnInfo
     public String picture;
-
 
 }

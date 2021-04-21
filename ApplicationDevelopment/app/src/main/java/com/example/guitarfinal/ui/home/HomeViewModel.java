@@ -1,3 +1,10 @@
+//|---------------------------------------------------------------------------|
+//|    CLASS    : HomeViewModel.java by Alex Gennero                          |
+//|                                                                           |
+//|    PURPOSE  : Setting the text on the homepage.                           |
+//|                                                                           |
+//|---------------------------------------------------------------------------|
+
 package com.example.guitarfinal.ui.home;
 
 import androidx.lifecycle.LiveData;
@@ -10,7 +17,7 @@ public class HomeViewModel extends ViewModel {
 
     public HomeViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is home page.\nThis will show wether the device is connected or not.\nNeed more information.");
+        mText.setValue("Guitar Effects Looper");
     }
 
     public LiveData<String> getText() {
