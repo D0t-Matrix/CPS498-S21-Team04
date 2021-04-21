@@ -17,30 +17,23 @@ import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
-import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 
-import android.os.Message;
-import android.util.Log;
+import android.os.ParcelFileDescriptor;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.guitarfinal.data.AppDatabase;
 import com.example.guitarfinal.data.Preset;
@@ -48,23 +41,22 @@ import com.example.guitarfinal.data.PresetDao;
 import com.example.guitarfinal.ui.presetEdit.EditFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.annotation.ContentView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.ButtonBarLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.room.Room;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileDescriptor;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 //import android.widget.AdapterView.OnClickListener;
@@ -80,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
     EditFragment editFrag;
     AppDatabase db;
     ImageView image_view;
+    LayoutInflater imageViewF;
+    View imageView;
     Button btn;
     Uri imageUri;
     public static final int IMAGE_CODE = 1;
@@ -91,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
     Preset preset6 = new Preset();
     List<Preset> presets;
     PresetDao presetDao;
+    Bitmap bitmap;
     BluetoothAdapter bluetoothAdapter;
     int REQUEST_ENABLE_BLUETOOTH = 1;
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
@@ -104,7 +99,15 @@ public class MainActivity extends AppCompatActivity {
         return selectedPreset;
     }
 
+    public Bitmap getBitmap(){
+        return bitmap;
+    }
+
     public MainActivity() {
+    }
+
+    public static final class layout{
+        public static final int myImage = 1000360;
     }
 
 
@@ -115,8 +118,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        imageViewF = getLayoutInflater();
+        imageView = imageViewF.inflate(R.layout.fragment_home, null);
+        image_view = (ImageView) imageView.findViewById(R.id.myImage);
+//        setContentView(R.layout.fragment_home);
+//        View view = getLayoutInflater().inflate(R.layout.fragment_home,null);
+//        image_view = findViewById(R.id.myImage);
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
@@ -142,8 +152,12 @@ public class MainActivity extends AppCompatActivity {
         preset4 = getOrCreateNewPreset(presets.size() > 3 ? presets.get(3) : null);
         preset5 = getOrCreateNewPreset(presets.size() > 4 ? presets.get(4) : null);
         preset6 = getOrCreateNewPreset(presets.size() > 5 ? presets.get(5) : null);
-        preset1.picture = null;
 
+        //sets image whenever app restarts.
+        if(preset1.picture != null) {
+            bitmap = BitmapFactory.decodeByteArray(preset1.picture, 0, (preset1.picture).length);
+            image_view.setImageBitmap(bitmap);
+        }
     }
 
     /** Author: Alex Gennero
@@ -289,22 +303,46 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /** Author: Alex Gennero & Mitchell Murphy
-     *  Purpose: Receives image selected and sets to HomeBackground. Also, saves the Picture to the Room Database
+     *  Purpose: Receives image selected and sets to HomeBackground. Also, saves the Picture to the Room Database as a Byte[]
      * @param requestCode
      * @param resultCode
      * @param data
      */
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == IMAGE_CODE && resultCode==RESULT_OK &&
                 data != null && data.getData() != null){
             imageUri = data.getData();
-            preset1.picture = imageUri.toString();
-            image_view.setImageURI(Uri.parse(preset1.picture));
-            savePreset(preset1);
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+            try {
+                Bitmap bm = getBitmapFromUri(imageUri);
+                bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                preset1.picture = baos.toByteArray();
+                bm.recycle();
+                bitmap = BitmapFactory.decodeByteArray(preset1.picture, 0, (preset1.picture).length);
+                image_view.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+    /** Author: Alex Gennero
+     *  Purpose: Transfers Uri into a Bitmap.
+     * @param u
+     * @return
+     * @throws IOException
+     */
+    private Bitmap getBitmapFromUri(Uri u) throws IOException {
+        ParcelFileDescriptor pfd = this.getContentResolver().openFileDescriptor(u, "r");
+        FileDescriptor fd = pfd.getFileDescriptor();
+        Bitmap image = BitmapFactory.decodeFileDescriptor(fd);
+        pfd.close();
+        return image;
     }
 
     /** Author: Alex Gennero

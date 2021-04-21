@@ -8,6 +8,7 @@
 
 package com.example.guitarfinal.ui.home;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -33,6 +34,7 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
     ImageView imageHolder;
     Preset preset;
+    Bitmap image;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -56,12 +58,10 @@ public class HomeFragment extends Fragment {
 
         ((MainActivity) getActivity()).savePreset(preset);
 
-        if(preset.picture != null)
-            imageHolder.setImageURI(Uri.parse(preset.picture));
-
-
-
-
+        //Sets the image.
+        image = ((MainActivity) getActivity()).getBitmap();
+        if(image != null)
+            imageHolder.setImageBitmap(image);
 
         return root;
     }

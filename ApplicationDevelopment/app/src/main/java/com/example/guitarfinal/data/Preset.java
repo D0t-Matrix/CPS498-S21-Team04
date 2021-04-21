@@ -7,10 +7,12 @@
 
 package com.example.guitarfinal.data;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -47,7 +49,7 @@ public class Preset {
     @ColumnInfo
     public boolean channel8;
 
-    @ColumnInfo
-    public String picture;
+    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
+    public byte[] picture;
 
 }
