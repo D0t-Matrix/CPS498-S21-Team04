@@ -22,83 +22,41 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.945" />
 
-    <Button
-        android:id="@+id/listDevice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="60dp"
-        android:text="List Device"
-        android:onClick="onListDevicesClicked"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="OnClick" />
+<!--    <Button-->
+<!--        android:id="@+id/listDevice"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="64dp"-->
+<!--        android:layout_marginEnd="144dp"-->
+<!--        android:onClick="onListDevicesClicked"-->
+<!--        android:text="List Device"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        tools:ignore="OnClick" />-->
 
-    <ListView
-        android:id="@+id/DL"
-        android:layout_width="match_parent"
-        android:layout_height="244dp"
-        android:layout_marginTop="132dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+<!--    <ListView-->
+<!--        android:id="@+id/DL"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="530dp"-->
+<!--        android:layout_marginTop="132dp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent">-->
 
 
-    </ListView>
+<!--    </ListView>-->
 
-    <Button
-        android:id="@+id/listen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="40dp"
-        android:text="Listen"
-        android:onClick="onShowDevicesClicked"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="OnClick" />
 
-    <EditText
-        android:id="@+id/EnterText"
-        android:layout_width="250dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="100dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Enter Text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/send"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="100dp"
-        android:text="Send"
-        android:onClick="onSendClicked"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="OnClick" />
-
-    <TextView
-        android:id="@+id/Status"
-        android:layout_width="123dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="108dp"
-        android:layout_marginEnd="60dp"
-        android:text="Status:"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/SentInformation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="420dp"
-        android:text="Sent Information"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<!--    <Button-->
+<!--        android:id="@+id/listen"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="112dp"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:onClick="onEnableClicked"-->
+<!--        android:text="Enable Bluetooth"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        tools:ignore="OnClick" />-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

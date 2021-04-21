@@ -8,8 +8,10 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,6 +29,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.guitarfinal.data.AppDatabase;
 import com.example.guitarfinal.data.Preset;
@@ -61,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     private AlertDialog dialog;
     private Button preset1Select,preset2Select,preset3Select,preset4Select,preset5Select,preset6Select;
 
+
     //Button saveButton1 = (Button) findViewById(R.id.saveButton);
     Preset selectedPreset;
 
@@ -90,296 +94,32 @@ public class MainActivity extends AppCompatActivity {
     List<Preset> presets;
     PresetDao presetDao;
 
-    //___________________________BLUETOOTH__________________________________________
-    Button listen, send, listDevices;
-    ListView listView;
-    TextView msg_box, status;
-    EditText writeMsg;
 
-    SendReceive sendReceive;
+
+    //___________________________BLUETOOTH__________________________________________
 
     BluetoothAdapter bluetoothAdapter;
-    BluetoothDevice[] btArray;
-
-    static final int STATE_LISTENING = 1;
-    static final int STATE_CONNECTING = 2;
-    static final int STATE_CONNECTED = 3;
-    static final int STATE_CONNECTION_FAILED = 4;
-    static final int STATE_MESSAGE_RECEIVED = 5;
-
     int REQUEST_ENABLE_BLUETOOTH = 1;
 
-    private static final String APP_NAME = "BTConnect";
-    private static final UUID MY_UUID = UUID.fromString("8ce255c0-233a-11e0-ac64-0803450c9a66");
-
-
-    //______________________________________________________________________________
-    private void findViewByIdes(){
-        listen = (Button) findViewById(R.id.listen);
-        send = (Button) findViewById(R.id.send);
-        listView = (ListView) findViewById(R.id.DL);
-        msg_box = (TextView) findViewById(R.id.SentInformation);
-        status = (TextView) findViewById(R.id.Status);
-        writeMsg = (EditText) findViewById(R.id.EnterText);
-        listDevices = (Button) findViewById(R.id.listDevice);
-        bluetoothAdapter  = BluetoothAdapter.getDefaultAdapter();
-    }
-    private void checkBTPermissions(){
-        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP){
-            int permissionsCheck = this.checkSelfPermission("Manifest.permission.ACCESS_FINE_LOCATION");
-            permissionsCheck += this.checkSelfPermission("Manifest.permission.ACCESS_COARSE_LOCATION");
-            if(permissionsCheck != 0){
-                this.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},1001);
-            }
-        }
-    }
 
 
 
-    public void onShowDevicesClicked(View v){
-        status = (TextView) findViewById(R.id.Status);
-        if(!bluetoothAdapter.isEnabled()){
-            checkBTPermissions();
-            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableIntent, REQUEST_ENABLE_BLUETOOTH);
-        }
-        ServerClass serverClass = new ServerClass();
-        serverClass.start();
-      
-    }
+    private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+
+//    public void onEnableClicked(View v){
+//        if(!bluetoothAdapter.isEnabled()){
+//            checkBTPermissions();
+//            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+//            startActivityForResult(enableIntent, REQUEST_ENABLE_BLUETOOTH);
+//        }
+//
+//
+//    }
 
 
-    public void onListDevicesClicked(View v){
-        listView =  findViewById(R.id.DL);
-        checkBTPermissions();
-        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP){
-            int permissionsCheck = this.checkSelfPermission("Manifest.permission.ACCESS_FINE_LOCATION");
-            permissionsCheck += this.checkSelfPermission("Manifest.permission.ACCESS_COARSE_LOCATION");
-            if(permissionsCheck != 0){
-                this.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},1001);
-            }
-        }
-
-        Set<BluetoothDevice> bt = bluetoothAdapter.getBondedDevices();
-        bluetoothAdapter  = BluetoothAdapter.getDefaultAdapter();
-        String[] strings = new String[bt.size()];
-        btArray = new BluetoothDevice[bt.size()];
-         int index = 0;
-
-        if(bt.size() > 0){
-            for(BluetoothDevice device: bt){
-                btArray[index] = device;
-                strings[index] = device.getName();
-                index++;
-            }
-
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1,strings);
-            listView.setAdapter(arrayAdapter);
-
-        }
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                ClientClass clientClass = new ClientClass(btArray[i]);
-                clientClass.start();
-
-                status.setText("Connecting");
-            }
-        });
 
 
-    }
 
-    public void onSendClicked(View v){
-        writeMsg = (EditText) findViewById(R.id.EnterText);
-        msg_box = (TextView) findViewById(R.id.SentInformation);
-        String string  = String.valueOf(writeMsg.getText());
-        sendReceive.write(string.getBytes());
-    }
-
-    public void onPresetClicked(View v){
-            switch (v.getId()) {
-                case R.id.button1:
-                    String string = String.valueOf(preset1.channel1 + " " + preset1.channel2 + " " + preset1.channel3 + " " + preset1.channel4 + " " + preset1.channel5 + " " + preset1.channel6 + " " + preset1.channel7 + " " + preset1.channel8);
-                    System.out.println(preset1.channel1 + " " + preset1.channel2 + " " + preset1.channel3 + " " + preset1.channel4 + " " + preset1.channel5 + " " + preset1.channel6 + " " + preset1.channel7 + " " + preset1.channel8);
-                    sendReceive.write(string.getBytes());
-                    break;
-                case R.id.button2:
-                    String string2 = String.valueOf(preset2.channel1 + " " + preset2.channel2 + " " + preset2.channel3 + " " + preset2.channel4 + " " + preset2.channel5 + " " + preset2.channel6 + " " + preset2.channel7 + " " + preset2.channel8);
-                    System.out.println(preset2.channel1 + " " + preset2.channel2 + " " + preset2.channel3 + " " + preset2.channel4 + " " + preset2.channel5 + " " + preset2.channel6 + " " + preset2.channel7 + " " + preset2.channel8);
-                    sendReceive.write(string2.getBytes());
-                    break;
-                case R.id.button3:
-                    String string3 = String.valueOf(preset3.channel1 + " " + preset3.channel2 + " " + preset3.channel3 + " " + preset3.channel4 + " " + preset3.channel5 + " " + preset3.channel6 + " " + preset3.channel7 + " " + preset3.channel8);
-                    System.out.println(preset1.channel3 + " " + preset1.channel3 + " " + preset3.channel3 + " " + preset3.channel4 + " " + preset3.channel5 + " " + preset3.channel6 + " " + preset3.channel7 + " " + preset3.channel8);
-                    sendReceive.write(string3.getBytes());
-                    break;
-                case R.id.button4:
-                    String string4 = String.valueOf(preset4.channel1 + " " + preset4.channel2 + " " + preset4.channel3 + " " + preset4.channel4 + " " + preset4.channel5 + " " + preset4.channel6 + " " + preset4.channel7 + " " + preset4.channel8);
-                    System.out.println(preset4.channel1 + " " + preset4.channel2 + " " + preset4.channel3 + " " + preset4.channel4 + " " + preset4.channel5 + " " + preset4.channel6 + " " + preset4.channel7 + " " + preset4.channel8);
-                    sendReceive.write(string4.getBytes());
-                    break;
-                case R.id.button5:
-                    String string5 = String.valueOf(preset5.channel1 + " " + preset5.channel2 + " " + preset5.channel3 + " " + preset5.channel4 + " " + preset5.channel5 + " " + preset5.channel6 + " " + preset5.channel7 + " " + preset5.channel8);
-                    System.out.println(preset5.channel1 + " " + preset5.channel2 + " " + preset5.channel3 + " " + preset5.channel4 + " " + preset5.channel5 + " " + preset5.channel6 + " " + preset5.channel7 + " " + preset5.channel8);
-                    sendReceive.write(string5.getBytes());
-                    break;
-
-                case R.id.button6:
-                    String string6 = String.valueOf(preset6.channel1 + " " + preset6.channel2 + " " + preset6.channel3 + " " + preset6.channel4 + " " + preset6.channel5 + " " + preset6.channel6 + " " + preset6.channel7 + " " + preset6.channel8);
-                    System.out.println(preset6.channel1 + " " + preset6.channel2 + " " + preset6.channel3 + " " + preset6.channel4 + " " + preset6.channel5 + " " + preset6.channel6 + " " + preset6.channel7 + " " + preset6.channel8);
-                    sendReceive.write(string6.getBytes());
-                    break;
-
-            }
-
-    }
-
-
-    Handler handler = new Handler(new Handler.Callback(){
-        @Override
-       public boolean handleMessage(Message msg){
-            switch (msg.what){
-                case STATE_LISTENING:
-                    status.setText("Listening");
-                    break;
-                case STATE_CONNECTING:
-                    status.setText("Connecting");
-                    break;
-                case STATE_CONNECTED:
-                    status.setText("Connected");
-                    break;
-                case STATE_CONNECTION_FAILED:
-                    status.setText("Connection Failed");
-                    break;
-                case STATE_MESSAGE_RECEIVED:
-                    byte[] readBuff = (byte[]) msg.obj;
-                    String tempMsg = new String(readBuff,0,msg.arg1);
-                    msg_box.setText(tempMsg);
-                    break;
-            }
-            return true;
-       }
-    });
-
-    private class ServerClass extends Thread{
-        private BluetoothServerSocket serverSocket;
-
-        public ServerClass(){
-            try {
-                serverSocket = bluetoothAdapter.listenUsingInsecureRfcommWithServiceRecord(APP_NAME, MY_UUID);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        public void run(){
-            BluetoothSocket socket = null;
-            while(socket == null){
-                try {
-                    Message message = Message.obtain();
-                    message.what = STATE_CONNECTING;
-                    handler.sendMessage(message);
-
-                    socket = serverSocket.accept();
-                } catch (IOException e) {
-                    Message message = Message.obtain();
-                    message.what = STATE_CONNECTION_FAILED;
-                    handler.sendMessage(message);
-                }
-                if(socket != null){
-                    Message message = Message.obtain();
-                    message.what = STATE_CONNECTED;
-                    handler.sendMessage(message);
-
-                    sendReceive = new SendReceive(socket);
-                    sendReceive.start();
-
-                    break;
-                }
-            }
-        }
-    }
-
-    private class ClientClass extends Thread{
-        private BluetoothDevice device;
-        private BluetoothSocket socket;
-
-        public ClientClass(BluetoothDevice device1){
-
-            device = device1;
-
-            try {
-                socket = device.createRfcommSocketToServiceRecord(MY_UUID);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }
-        public void run(){
-
-            try {
-                socket.connect();
-                Message message = Message.obtain();
-                message.what = STATE_CONNECTED;
-                handler.sendMessage(message);
-
-                sendReceive = new SendReceive(socket);
-                sendReceive.start();
-            } catch (IOException e) {
-                e.printStackTrace();
-                Message message = Message.obtain();
-                message.what = STATE_CONNECTION_FAILED;
-                handler.sendMessage(message);
-
-            }
-
-        }
-
-    }
-
-    private class SendReceive extends Thread{
-        private final BluetoothSocket bluetoothSocket;
-        private final InputStream inputStream;
-        private final OutputStream outputStream;
-
-        public SendReceive(BluetoothSocket socket){
-            bluetoothSocket = socket;
-            InputStream tempIn = null;
-            OutputStream tempOut  = null;
-
-            try {
-                tempIn = bluetoothSocket.getInputStream();
-                tempOut = bluetoothSocket.getOutputStream();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            inputStream = tempIn;
-            outputStream = tempOut;
-
-        }
-        public void run(){
-            byte[] buffer = new byte[1024];
-            int bytes;
-
-            while(true){
-                try {
-                    bytes = inputStream.read(buffer);
-                    handler.obtainMessage(STATE_MESSAGE_RECEIVED, bytes, -1, buffer).sendToTarget();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        public void write(byte[] bytes){
-            try {
-                outputStream.write(bytes);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
     public MainActivity() {
     }
 
@@ -413,14 +153,6 @@ public class MainActivity extends AppCompatActivity {
         preset6 = getOrCreateNewPreset(presets.size() > 5 ? presets.get(5) : null);
         preset1.picture = null;
 
-        //____________________BLUETOOTH____________________________
-            findViewByIdes();
-
-        BluetoothManager manager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
-        bluetoothAdapter = manager.getAdapter();
-
-
-        //__________________________________________________________
     }
 
 
@@ -531,7 +263,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //methods allow you to open and select image for the home background image
+    ///<summary> Mitchell Murphy
+    ///
+    ///</summary>
     public void btnClick(View v){
         image_view = findViewById(R.id.myImage);
         btn = findViewById(R.id.cb);
@@ -539,7 +273,9 @@ public class MainActivity extends AppCompatActivity {
         openImageForm();
 
     }
-
+    ///<summary> Mitchell Murphy
+    /// Opens the devices photos folder so the user can select an image for their home page background
+    ///</summary>
     private void openImageForm() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -573,6 +309,344 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return preset;
+    }
+
+
+    ///<summary> Mitchell Murphy
+    /// This function checks to see what version of Android the users device is running and then requests permission if they are running Android lollipop or newer.
+    ///</summary>
+    private void checkBTPermissions(){
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP){
+            int permissionsCheck = this.checkSelfPermission("Manifest.permission.ACCESS_FINE_LOCATION");
+            permissionsCheck += this.checkSelfPermission("Manifest.permission.ACCESS_COARSE_LOCATION");
+            if(permissionsCheck != 0){
+                this.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},1001);
+            }
+
+        }
+    }
+
+    ///<summary>Mitchell Murphy
+    /// (onPreset1Clicked - onPreset6Clicked)
+    /// 1st) Create a new thread in order to handle the data being sent so it does not overload the main thread.
+    /// 2nd) Check the Bluetooth permissions on the device and make sure that the user can use Bluetooth on their device
+    /// 3rd) Establish a connection to the ESP-32
+    /// 4th) Output the data that is stored in the preset
+    /// 5th) Close the socket
+    ///</summary>
+    public void onPreset1Clicked(View v){
+        new Thread(() -> {
+            BluetoothManager manager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
+            bluetoothAdapter = manager.getAdapter();
+            checkBTPermissions();
+            BluetoothDevice esp32 = bluetoothAdapter.getRemoteDevice("84:CC:A8:5C:F4:8E");
+            System.out.println(esp32.getName());
+
+            BluetoothSocket btSocket = null;
+
+            int counter = 0;
+            do {
+                try {
+                    btSocket = esp32.createRfcommSocketToServiceRecord(MY_UUID);
+                    System.out.println("Service Record: " + btSocket);
+                    btSocket.connect();
+                    System.out.println("Socket is connected (true/false): " + btSocket.isConnected());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }while(!btSocket.isConnected() && counter < 3);
+
+            try{
+                OutputStream outputStream = btSocket.getOutputStream();
+                String string = String.valueOf(preset1.channel1 + " "+ preset1.channel2 + " "+ preset1.channel3 + " "+ preset1.channel4 + " " + preset1.channel5 + " "+ preset1.channel6 +  " "+ preset1.channel7 + " " + preset1.channel8);
+                System.out.println("String Value:" + string);
+                StringBuffer sb = new StringBuffer();
+                char ch[] = string.toCharArray();
+                for(int i = 0; i < ch.length; i++){
+                    String hexString = Integer.toHexString(ch[i]);
+                    sb.append(hexString);
+                }
+                String result = sb.toString();
+                System.out.println("Hex Value: " + result);//For demo
+                outputStream.write(result.getBytes());
+
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+
+            try{
+                btSocket.close();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+
+        }).start();
+
+
+    }
+
+    public void onPreset2Clicked(View v){
+        new Thread(() -> {
+
+            BluetoothManager manager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
+            bluetoothAdapter = manager.getAdapter();
+            BluetoothDevice esp32 = bluetoothAdapter.getRemoteDevice("84:CC:A8:5C:F4:8E");
+            System.out.println(esp32.getName());
+
+            BluetoothSocket btSocket = null;
+
+            int counter = 0;
+            do {
+                try {
+                    btSocket = esp32.createRfcommSocketToServiceRecord(MY_UUID);
+                    System.out.println("Service Record: " + btSocket);
+
+                    btSocket.connect();
+                    System.out.println("Socket is connected (true/false): " + btSocket.isConnected());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }while(!btSocket.isConnected() && counter < 3);
+
+            try{
+                OutputStream outputStream = btSocket.getOutputStream();
+                String string = String.valueOf(preset2.channel1 + " "+ preset2.channel2 + " "+ preset2.channel3 + " "+ preset2.channel4 + " " + preset2.channel5 + " "+ preset2.channel6 + " " +preset2.channel7 + " "+ preset2.channel8 );
+                System.out.println("String Value: " + string);
+                StringBuffer sb = new StringBuffer();
+                char ch[] = string.toCharArray();
+                for(int i = 0; i < ch.length; i++){
+                    String hexString = Integer.toHexString(ch[i]);
+                    sb.append(hexString);
+                }
+                String result = sb.toString();
+                System.out.println("Hex Value: " + result);
+                outputStream.write(result.getBytes());
+
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+
+            try{
+                btSocket.close();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+
+        }).start();
+
+
+    }
+
+    public void onPreset3Clicked(View v){
+        new Thread(() -> {
+            checkBTPermissions();
+            BluetoothManager manager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
+            bluetoothAdapter = manager.getAdapter();
+            BluetoothDevice esp32 = bluetoothAdapter.getRemoteDevice("84:CC:A8:5C:F4:8E");
+            System.out.println(esp32.getName());
+
+            BluetoothSocket btSocket = null;
+
+            int counter = 0;
+            do {
+                try {
+                    btSocket = esp32.createRfcommSocketToServiceRecord(MY_UUID);
+                    System.out.println("Service Record: " + btSocket);
+
+                    btSocket.connect();
+                    System.out.println("Socket is connected (true/false): " + btSocket.isConnected());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }while(!btSocket.isConnected() && counter < 3);
+
+            try{
+                OutputStream outputStream = btSocket.getOutputStream();
+                String string = String.valueOf(preset3.channel3 + " "+ preset3.channel2 + " "+ preset3.channel3 + " "+ preset3.channel4 + " " + preset3.channel5 + " "+ preset3.channel6 + " " +preset3.channel7 + " "+ preset3.channel8 );
+                System.out.println("String Value: " + string);
+                StringBuffer sb = new StringBuffer();
+                char ch[] = string.toCharArray();
+                for(int i = 0; i < ch.length; i++){
+                    String hexString = Integer.toHexString(ch[i]);
+                    sb.append(hexString);
+                }
+                String result = sb.toString();
+                System.out.println("Hex Value: " + result);
+                outputStream.write(result.getBytes());
+
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+
+            try{
+                btSocket.close();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+
+        }).start();
+
+
+    }
+
+    public void onPreset4Clicked(View v){
+
+        new Thread(() -> {
+            checkBTPermissions();
+            BluetoothManager manager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
+            bluetoothAdapter = manager.getAdapter();
+            BluetoothDevice esp32 = bluetoothAdapter.getRemoteDevice("84:CC:A8:5C:F4:8E");
+            System.out.println(esp32.getName());
+
+            BluetoothSocket btSocket = null;
+
+            int counter = 0;
+            do {
+                try {
+                    btSocket = esp32.createRfcommSocketToServiceRecord(MY_UUID);
+                    System.out.println("Service Record: " + btSocket);
+
+                    btSocket.connect();
+                    System.out.println("Socket is connected (true/false): " + btSocket.isConnected());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }while(!btSocket.isConnected() && counter < 3);
+
+            try{
+                OutputStream outputStream = btSocket.getOutputStream();
+                String string = String.valueOf(preset4.channel3 + " "+ preset4.channel2 + " "+ preset4.channel3 + " "+ preset4.channel4 + " " + preset4.channel5 + " "+ preset4.channel6 + " " +preset4.channel7 + " "+ preset4.channel8 );
+                System.out.println("String Value: " + string);
+                StringBuffer sb = new StringBuffer();
+                char ch[] = string.toCharArray();
+                for(int i = 0; i < ch.length; i++){
+                    String hexString = Integer.toHexString(ch[i]);
+                    sb.append(hexString);
+                }
+                String result = sb.toString();
+                System.out.println("Hex Value: " + result);
+                outputStream.write(result.getBytes());
+
+
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+
+            try{
+                btSocket.close();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+
+        }).start();
+
+
+    }
+    public void onPreset5Clicked(View v){
+
+        new Thread(() -> {
+            checkBTPermissions();
+            BluetoothManager manager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
+            bluetoothAdapter = manager.getAdapter();
+            BluetoothDevice esp32 = bluetoothAdapter.getRemoteDevice("84:CC:A8:5C:F4:8E");
+            System.out.println(esp32.getName());
+
+            BluetoothSocket btSocket = null;
+
+            int counter = 0;
+            do {
+                try {
+                    btSocket = esp32.createRfcommSocketToServiceRecord(MY_UUID);
+                    System.out.println("Service Record: " + btSocket);
+
+                    btSocket.connect();
+                    System.out.println("Socket is connected (true/false): " + btSocket.isConnected());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }while(!btSocket.isConnected() && counter < 3);
+
+            try{
+                OutputStream outputStream = btSocket.getOutputStream();
+                String string = String.valueOf(preset5.channel3 + " "+ preset5.channel2 + " "+ preset5.channel3 + " "+ preset5.channel4 + " " + preset5.channel5 + " "+ preset5.channel6 + " " +preset5.channel7 + " "+ preset5.channel8 );
+                System.out.println("String Values: " + string);
+                StringBuffer sb = new StringBuffer();
+                char ch[] = string.toCharArray();
+                for(int i = 0; i < ch.length; i++){
+                    String hexString = Integer.toHexString(ch[i]);
+                    sb.append(hexString);
+                }
+                String result = sb.toString();
+                System.out.println("Hex Value: " + result);
+                outputStream.write(result.getBytes());
+
+
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+
+            try{
+                btSocket.close();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+
+        }).start();
+
+
+    }
+
+    public void onPreset6Clicked(View v) {
+
+        new Thread(() -> {
+            checkBTPermissions();
+            BluetoothManager manager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
+            bluetoothAdapter = manager.getAdapter();
+            BluetoothDevice esp32 = bluetoothAdapter.getRemoteDevice("84:CC:A8:5C:F4:8E");
+            System.out.println(esp32.getName());
+
+            BluetoothSocket btSocket = null;
+
+            int counter = 0;
+            do {
+                try {
+                    btSocket = esp32.createRfcommSocketToServiceRecord(MY_UUID);
+                    System.out.println("Service Record: " + btSocket);
+
+                    btSocket.connect();
+                    System.out.println("Socket is connected (true/false): " + btSocket.isConnected());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } while (!btSocket.isConnected() && counter < 3);
+
+            try {
+                OutputStream outputStream = btSocket.getOutputStream();
+                String string = String.valueOf(preset6.channel3 + " " + preset6.channel2 + " " + preset6.channel3 + " " + preset6.channel4 + " " + preset6.channel5 + " " + preset6.channel6 + " " + preset6.channel7 + " " + preset6.channel8);
+                System.out.println("String Values: " + string);
+                StringBuffer sb = new StringBuffer();
+                char ch[] = string.toCharArray();
+                for (int i = 0; i < ch.length; i++) {
+                    String hexString = Integer.toHexString(ch[i]);
+                    sb.append(hexString);
+                }
+                String result = sb.toString();
+                System.out.println("Hex Value: " + result);
+                outputStream.write(result.getBytes());
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                btSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }).start();
+
     }
 
 }
