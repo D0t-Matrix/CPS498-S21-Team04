@@ -325,6 +325,7 @@ public class MainActivity extends AppCompatActivity {
                 bm.recycle();
                 bitmap = BitmapFactory.decodeByteArray(preset1.picture, 0, (preset1.picture).length);
                 image_view.setImageBitmap(bitmap);
+                savePreset(preset1);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -406,51 +407,17 @@ public class MainActivity extends AppCompatActivity {
 
             try {
                 OutputStream outputStream = btSocket.getOutputStream();
-                String string = String.valueOf(preset1.channel1 + " " + preset1.channel2 + " " + preset1.channel3 + " " + preset1.channel4 + " " + preset1.channel5 + " " + preset1.channel6 + " " + preset1.channel7 + " " + preset1.channel8);
 
-//                if(preset1.channel1 == true)
-//                    string.concat("1");
-//                else
-//                    string.concat("0");
+                boolean[] ar = {preset1.channel1, preset1.channel2, preset1.channel3, preset1.channel4, preset1.channel5, preset1.channel6, preset1.channel7, preset1.channel8};
+                String binaryStr = "";
+                for (boolean bit : ar)
+                    binaryStr += bit ? "1" : "0";
+                int dec = Integer.parseInt(binaryStr, 2);
+                String hexStr = Integer.toString(dec, 16);
 
+                System.out.println("Hex of boolean values: " + hexStr); //For demo purposes
 
-                System.out.println("Channel Values in String: " + string);
-                StringBuffer sb = new StringBuffer();
-
-                //Converts string to string of 1s and 0s
-                char ch[] = string.toCharArray();
-                for (int i = 0; i < ch.length; i++) {
-                    if (ch[i] == 't') {
-                         String ints = ("1 ");
-                         sb.append(ints);
-                    } else if(ch[i] == 'f') {
-                        String ints = ("0 ");
-                        sb.append(ints);
-                    }
-                }
-                String result = sb.toString();
-                System.out.println("String Array of Integers: " + result);
-
-                //Converts string to integer array.
-                String[] splited = result.split(" ");
-                int[] numbers = new int[splited.length];
-                for(int x = 0; x < splited.length; x++){
-                    numbers[x] = Integer.parseInt(splited[x]);
-
-                }
-                System.out.println("Integer Array: " + Arrays.toString(numbers));
-
-                //Converts integer array to hex.
-                StringBuffer toHex = new StringBuffer();
-                for(int y = 0; y < numbers.length; y++){
-                    String hexString = Integer.toHexString(numbers[y]);
-                    toHex.append(hexString);
-                }
-
-                String hexResult = toHex.toString();
-                System.out.println(hexResult);
-
-                outputStream.write(hexResult.getBytes());
+                outputStream.write(hexStr.getBytes());
 
 
 
@@ -489,45 +456,16 @@ public class MainActivity extends AppCompatActivity {
 
             try{
                 OutputStream outputStream = btSocket.getOutputStream();
-                String string = String.valueOf(preset2.channel1 + " "+ preset2.channel2 + " "+ preset2.channel3 + " "+ preset2.channel4 + " " + preset2.channel5 + " "+ preset2.channel6 + " " +preset2.channel7 + " "+ preset2.channel8 );
+                boolean[] ar = {preset2.channel1, preset2.channel2, preset2.channel3, preset2.channel4, preset2.channel5, preset2.channel6, preset2.channel7, preset2.channel8};
+                String binaryStr = "";
+                for (boolean bit : ar)
+                    binaryStr += bit ? "1" : "0";
+                int dec = Integer.parseInt(binaryStr, 2);
+                String hexStr = Integer.toString(dec, 16);
 
-                System.out.println("Channel Values in String: " + string);
-                StringBuffer sb = new StringBuffer();
+                System.out.println("Hex of boolean values: " + hexStr); //For demo purposes
 
-                //Converts string to string of 1s and 0s
-                char ch[] = string.toCharArray();
-                for (int i = 0; i < ch.length; i++) {
-                    if (ch[i] == 't') {
-                        String ints = ("1 ");
-                        sb.append(ints);
-                    } else if(ch[i] == 'f') {
-                        String ints = ("0 ");
-                        sb.append(ints);
-                    }
-                }
-                String result = sb.toString();
-                System.out.println("String Array of Integers: " + result);
-
-                //Converts string to integer array.
-                String[] splited = result.split(" ");
-                int[] numbers = new int[splited.length];
-                for(int x = 0; x < splited.length; x++){
-                    numbers[x] = Integer.parseInt(splited[x]);
-
-                }
-                System.out.println("Integer Array: " + Arrays.toString(numbers));
-
-                //Converts integer array to hex.
-                StringBuffer toHex = new StringBuffer();
-                for(int y = 0; y < numbers.length; y++){
-                    String hexString = Integer.toHexString(numbers[y]);
-                    toHex.append(hexString);
-                }
-
-                String hexResult = toHex.toString();
-                System.out.println(hexResult);
-
-                outputStream.write(hexResult.getBytes());
+                outputStream.write(hexStr.getBytes());
 
 
 
@@ -568,48 +506,16 @@ public class MainActivity extends AppCompatActivity {
 
             try{
                 OutputStream outputStream = btSocket.getOutputStream();
-                String string = String.valueOf(preset3.channel3 + " "+ preset3.channel2 + " "+ preset3.channel3 + " "+ preset3.channel4 + " " + preset3.channel5 + " "+ preset3.channel6 + " " +preset3.channel7 + " "+ preset3.channel8 );
+                boolean[] ar = {preset3.channel1, preset3.channel2, preset3.channel3, preset3.channel4, preset3.channel5, preset3.channel6, preset3.channel7, preset3.channel8};
+                String binaryStr = "";
+                for (boolean bit : ar)
+                    binaryStr += bit ? "1" : "0";
+                int dec = Integer.parseInt(binaryStr, 2);
+                String hexStr = Integer.toString(dec, 16);
 
-                System.out.println("Channel Values in String: " + string);
-                StringBuffer sb = new StringBuffer();
+                System.out.println("Hex of boolean values: " + hexStr); //For demo purposes
 
-                //Converts string to string of 1s and 0s
-                char ch[] = string.toCharArray();
-                for (int i = 0; i < ch.length; i++) {
-                    if (ch[i] == 't') {
-                        String ints = ("1 ");
-                        sb.append(ints);
-                    } else if(ch[i] == 'f') {
-                        String ints = ("0 ");
-                        sb.append(ints);
-                    }
-                }
-                String result = sb.toString();
-                System.out.println("String Array of Integers: " + result);
-
-                //Converts string to integer array.
-                String[] splited = result.split(" ");
-                int[] numbers = new int[splited.length];
-                for(int x = 0; x < splited.length; x++){
-                    numbers[x] = Integer.parseInt(splited[x]);
-
-                }
-                System.out.println("Integer Array: " + Arrays.toString(numbers));
-
-                //Converts integer array to hex.
-                StringBuffer toHex = new StringBuffer();
-                for(int y = 0; y < numbers.length; y++){
-                    String hexString = Integer.toHexString(numbers[y]);
-                    toHex.append(hexString);
-                }
-
-                String hexResult = toHex.toString();
-                System.out.println(hexResult);
-
-                outputStream.write(hexResult.getBytes());
-
-
-
+                outputStream.write(hexStr.getBytes());
 
 
             }catch (IOException e){
@@ -654,45 +560,16 @@ public class MainActivity extends AppCompatActivity {
 
             try{
                 OutputStream outputStream = btSocket.getOutputStream();
-                String string = String.valueOf(preset4.channel3 + " "+ preset4.channel2 + " "+ preset4.channel3 + " "+ preset4.channel4 + " " + preset4.channel5 + " "+ preset4.channel6 + " " +preset4.channel7 + " "+ preset4.channel8 );
+                boolean[] ar = {preset4.channel1, preset4.channel2, preset4.channel3, preset4.channel4, preset4.channel5, preset4.channel6, preset4.channel7, preset4.channel8};
+                String binaryStr = "";
+                for (boolean bit : ar)
+                    binaryStr += bit ? "1" : "0";
+                int dec = Integer.parseInt(binaryStr, 2);
+                String hexStr = Integer.toString(dec, 16);
 
-                System.out.println("Channel Values in String: " + string);
-                StringBuffer sb = new StringBuffer();
+                System.out.println("Hex of boolean values: " + hexStr); //For demo purposes
 
-                //Converts string to string of 1s and 0s
-                char ch[] = string.toCharArray();
-                for (int i = 0; i < ch.length; i++) {
-                    if (ch[i] == 't') {
-                        String ints = ("1 ");
-                        sb.append(ints);
-                    } else if(ch[i] == 'f') {
-                        String ints = ("0 ");
-                        sb.append(ints);
-                    }
-                }
-                String result = sb.toString();
-                System.out.println("String Array of Integers: " + result);
-
-                //Converts string to integer array.
-                String[] splited = result.split(" ");
-                int[] numbers = new int[splited.length];
-                for(int x = 0; x < splited.length; x++){
-                    numbers[x] = Integer.parseInt(splited[x]);
-
-                }
-                System.out.println("Integer Array: " + Arrays.toString(numbers));
-
-                //Converts integer array to hex.
-                StringBuffer toHex = new StringBuffer();
-                for(int y = 0; y < numbers.length; y++){
-                    String hexString = Integer.toHexString(numbers[y]);
-                    toHex.append(hexString);
-                }
-
-                String hexResult = toHex.toString();
-                System.out.println(hexResult);
-
-                outputStream.write(hexResult.getBytes());
+                outputStream.write(hexStr.getBytes());
 
 
             }catch (IOException e){
@@ -726,7 +603,7 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println("Service Record: " + btSocket);
 
                     btSocket.connect();
-                    System.out.println("Socket is connected (true/false): " + btSocket.isConnected());
+                    System.out.println("Socket is connected (true/false): " + btSocket.isConnected()); //For demo purposes
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -734,44 +611,16 @@ public class MainActivity extends AppCompatActivity {
 
             try{
                 OutputStream outputStream = btSocket.getOutputStream();
-                String string = String.valueOf(preset5.channel3 + " "+ preset5.channel2 + " "+ preset5.channel3 + " "+ preset5.channel4 + " " + preset5.channel5 + " "+ preset5.channel6 + " " +preset5.channel7 + " "+ preset5.channel8 );
-                System.out.println("Channel Values in String: " + string);
-                StringBuffer sb = new StringBuffer();
+                boolean[] ar = {preset5.channel1, preset5.channel2, preset5.channel3, preset5.channel4, preset5.channel5, preset5.channel6, preset5.channel7, preset5.channel8};
+                String binaryStr = "";
+                for (boolean bit : ar)
+                    binaryStr += bit ? "1" : "0";
+                int dec = Integer.parseInt(binaryStr, 2);
+                String hexStr = Integer.toString(dec, 16);
 
-                //Converts string to string of 1s and 0s
-                char ch[] = string.toCharArray();
-                for (int i = 0; i < ch.length; i++) {
-                    if (ch[i] == 't') {
-                        String ints = ("1 ");
-                        sb.append(ints);
-                    } else if(ch[i] == 'f') {
-                        String ints = ("0 ");
-                        sb.append(ints);
-                    }
-                }
-                String result = sb.toString();
-                System.out.println("String Array of Integers: " + result);
+                System.out.println("Hex of boolean values: " + hexStr); //For demo purposes
 
-                //Converts string to integer array.
-                String[] splited = result.split(" ");
-                int[] numbers = new int[splited.length];
-                for(int x = 0; x < splited.length; x++){
-                    numbers[x] = Integer.parseInt(splited[x]);
-
-                }
-                System.out.println("Integer Array: " + Arrays.toString(numbers));
-
-                //Converts integer array to hex.
-                StringBuffer toHex = new StringBuffer();
-                for(int y = 0; y < numbers.length; y++){
-                    String hexString = Integer.toHexString(numbers[y]);
-                    toHex.append(hexString);
-                }
-
-                String hexResult = toHex.toString();
-                System.out.println(hexResult);
-
-                outputStream.write(hexResult.getBytes());
+                outputStream.write(hexStr.getBytes());
 
 
             }catch (IOException e){
@@ -814,45 +663,16 @@ public class MainActivity extends AppCompatActivity {
 
             try {
                 OutputStream outputStream = btSocket.getOutputStream();
-                String string = String.valueOf(preset6.channel3 + " " + preset6.channel2 + " " + preset6.channel3 + " " + preset6.channel4 + " " + preset6.channel5 + " " + preset6.channel6 + " " + preset6.channel7 + " " + preset6.channel8);
+                boolean[] ar = {preset6.channel1, preset6.channel2, preset6.channel3, preset6.channel4, preset6.channel5, preset6.channel6, preset6.channel7, preset6.channel8};
+                String binaryStr = "";
+                for (boolean bit : ar)
+                    binaryStr += bit ? "1" : "0";
+                int dec = Integer.parseInt(binaryStr, 2);
+                String hexStr = Integer.toString(dec, 16);
 
-                System.out.println("Channel Values in String: " + string);
-                StringBuffer sb = new StringBuffer();
+                System.out.println("Hex of boolean values: " + hexStr); //For demo purposes
 
-                //Converts string to string of 1s and 0s
-                char ch[] = string.toCharArray();
-                for (int i = 0; i < ch.length; i++) {
-                    if (ch[i] == 't') {
-                        String ints = ("1 ");
-                        sb.append(ints);
-                    } else if(ch[i] == 'f') {
-                        String ints = ("0 ");
-                        sb.append(ints);
-                    }
-                }
-                String result = sb.toString();
-                System.out.println("String Array of Integers: " + result);
-
-                //Converts string to integer array.
-                String[] splited = result.split(" ");
-                int[] numbers = new int[splited.length];
-                for(int x = 0; x < splited.length; x++){
-                    numbers[x] = Integer.parseInt(splited[x]);
-
-                }
-                System.out.println("Integer Array: " + Arrays.toString(numbers));
-
-                //Converts integer array to hex.
-                StringBuffer toHex = new StringBuffer();
-                for(int y = 0; y < numbers.length; y++){
-                    String hexString = Integer.toHexString(numbers[y]);
-                    toHex.append(hexString);
-                }
-
-                String hexResult = toHex.toString();
-                System.out.println(hexResult);
-
-                outputStream.write(hexResult.getBytes());
+                outputStream.write(hexStr.getBytes());
 
 
 
