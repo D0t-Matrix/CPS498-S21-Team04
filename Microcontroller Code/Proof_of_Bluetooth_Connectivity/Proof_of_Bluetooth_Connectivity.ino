@@ -73,8 +73,9 @@ void findBtnVal(String receivedMsg)
     {
       //store chracter as raw byte to memory, return value to bluetooth connection as confirmation
       byte val = receivedMsg.charAt(strIndex);
-      EEPROM.write(i, val)
-      SerialBT.write("Btn %d Stored", (i + 1));
+      //EEPROM.write(i, val);
+      String str = String.format("Btn " + (i+1) + " Stored");
+      SerialBT.write(str);
     }
   }
 }
