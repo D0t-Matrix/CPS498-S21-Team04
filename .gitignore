@@ -58,6 +58,11 @@ dkms.conf
 *.mod
 *.smod
 
+# Gradle files
+*.lock
+*.gradle/
+*.idea/
+
 #VSCode files
 .history/
 .vscode/

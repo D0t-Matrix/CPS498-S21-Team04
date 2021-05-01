@@ -1,0 +1,13 @@
+<!--Author: Alex Gennero & Mitchell Murphy-->
+<!--Purpose: Hardcode Strings into application-->
+
+<resources>
+    <string name="app_name">Guitar Looper</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_dSettings">Device Settings</string>
+    <string name="title_edit">Edit</string>
+    <string name="action_settings">Settings</string>
+
+
+</resources>
