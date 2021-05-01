@@ -73,7 +73,7 @@ The software design is functional, but there are features that still need to be 
         * Microcontroller Implementation
         * Microcontroller coding
             * Built Proof of Concept code for BT and hardware to test separately.
-* Alex Gennerro
+* Alex Gennero
     * 80 Hours Worked
     * Worked on:
         * Designed format of phone application
