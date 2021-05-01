@@ -73,19 +73,19 @@ The software design is functional, but there are features that still need to be 
         * Microcontroller Implementation
         * Microcontroller coding
             * Built Proof of Concept code for BT and hardware to test separately.
-* Alex Generro
+* Alex Gennerro
     * 80 Hours Worked
-        * Worked on:
-            * Designed format of phone application
-                * Worked with advisor to design app to be intuitive to musicians and non tech-savvy users
-            * App navigation
-                * Bottom Nav Bar
-                * Editing Screen Popup Menu
-            * Designed Room Database (Database Layer on an SQLite database)
-                * String value for Preset Name
-                * Boolean values for each channel
-                * Byte Array for storing home page image
-                    * Image-to-URI to Byte Array
+    * Worked on:
+        * Designed format of phone application
+            * Worked with advisor to design app to be intuitive to musicians and non tech-savvy users
+        * App navigation
+            * Bottom Nav Bar
+            * Editing Screen Popup Menu
+        * Designed Room Database (Database Layer on an SQLite database)
+            * String value for Preset Name
+            * Boolean values for each channel
+            * Byte Array for storing home page image
+                * Image-to-URI to Byte Array
 * Mitchell Murphy
     * 70 Hours Worked
     * Worked on:
