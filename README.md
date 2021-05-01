@@ -10,11 +10,11 @@
 * [Objectives & Functionality](#Objectives-&-Functionality)
 
 * [Snapshots](#Snapshots)
-  * Home Page
-  * Dashboard
-  * Editing Page
-  * Prototype Housing
-  * Prototype Schematic
+  * [Home Page](#Home-Page)
+  * [Dashboard](#Dashboard)
+  * [Editing Page](#Editing-Page)
+  * [Prototype Housing](#Prototype-Housing)
+  * [Prototype Schematic](#Prototype-Schematic)
 * [Changes Needed to Design](#Changes-Needed-to-Design)
 * [Team Contributions](#Team-Contributions)
 * [Installation Guides](#Installation-Guides)
@@ -23,18 +23,48 @@
 
 
 
-## Introduction:
+# Introduction:
+The goals for the mobile application was to make an easy to navigate application for the end user to use whilst performing. We were able to work with Robert Wang on the design of the application so it was easy for an average person to navigate without much knowledge about technology. Also, we wanted to allow for more features in the future. The Room database allows for people to create more presets and have multiple pages of them if needed in the future. Through our discussions with Robert Wang he wanted to allow the users to be able to customize the application with a custom home image. Originally we were setting the image as a URI, but saving a URI into a Room Database was not supported. Also, you were not able to save the file location for the image because that would make the user have to allow all of the phone data to be accessed by the application at all times. So we had to get the Bitmap from the URI file and save into a bit array.
+
+Hardware design has been updated, due to needing to handle the signal noise introduced from so many different ground sources being connected at once. Electrically on the circuitry it posed a problem in causing noticeable static in the housing that could and would trigger the relays seemingly at random. On the sound fidelity side of the circuitry, it introduced large amounts of noise from ground loops and static due to weak and loose connections. Any actual wires used will be replaced with fully insulated 16 gauge stranded wire, to ensure enough wire density to reduce loss of fidelity, and enough insulation to avoid static causing RF interference.
 
 
-## Objectives & Functionality
+# Objectives & Functionality
 
-## Snapshots
+# Snapshots
+
+## Home Page
 ![Home Page](./Images/HomeScreen.png)
+
+The user is able to set a custom background image by simply pressing the image icon located at the bottom of the screen. This will then take them to their device/google images folders.
+
+## Dashboard
 ![Dashboard](./Images/Dashboard.png)
-![Edit Page](./Images/EditingPage.png)
+
+The dashboard is a very simple design because it allows users to easily change which preset they are using. This allows guitarists to have minimum “misclicks” while performing on stage live. Once a preset is pressed, it sends the channel information which was set in the editing page to the Switcher through bluetooth.
+
+## Editing Page
+![Editing Page](./Images/EditingPage.png)
+
+The editing page is used by the guitarist to easily be able to modify their presets for the effects they would like to be enabled. The user simply turns on the channels they would like on and are able to have a custom name.
+
+## Prototype Housing
 ![Protoype Housing](./Images/HousingPrototype.jpg)
+
+Snippet of Schematic showing the wiring diagram for each component, but saving space by not showing each iteration of the component. Only one button and one relay is shown, but each of those components are repeated 6 and 8 times respectively.
+
+## Prototype Schematic
 ![Prototype Schematic](./Images/Schematic.png)
-## Team Contributions
+
+Photo of physical prototype used in final recording test, prior to discovery of need to redesign the relay system.
+
+# Changes Needed to Design
+
+The Hardware design needed reworking after discovery of how much noise and interference was in fact given from the ground loop issue. Changing the relay mechanism with a DPDT system solves the Ground Loop, but adds a significant number of wires in the system. Designing a PCB to utilize in the housing would enable reduction in wires utilized, thereby maintaining a higher-quality signal fidelity.
+
+The software design is functional, but there are features that still need to be added. Adding a new way of editing presets by holding on the button on the dashboard. Adding a page that allows the user to see the device they are connected to via BlueTooth (Nav Menu for this created in bottom_nav_menu.xml and is currently commented out).
+
+# Team Contributions
 * Dominic Kenney
     * 150 Hours Worked
     * Worked on:
@@ -63,21 +93,24 @@
         * Implemented customizable home screen background.
 
 
-## Installation Guides
-### Installing App to Android Device
+# Installation Guides
+
+## Installing App to Android Device
 1. Ensure device has sidloading applications enabled
       1. Check in the Settings > Security > Unknown Sources checkbox.
 1. Download the `.apk` file [here]() to android device
 1. Open downloads folder and tap on `.apk` file
       1. Tap yes when prompted to install application
-### Uploading code to ESP-32
+
+
+## Uploading code to ESP-32
 1. Enter the `Microcontroller Code` folder
 1. choose which code you want to download by entering the corresponding sub-folder
 1. Download the sub-folder as a `.zip` file
 1. Extract `.zip` and enter the folder.
 1. Open the `.ino` file in either Arduino IDE or Visual Studio Code
 1. Select the corresponding ESP-32 board unit based on your hardware
-      1. If not installed, please follow guide [here]() to get the ESP-32 board manager installed for Arduino
+      1. If not installed, please follow guide [here](https://randomnerdtutorials.com/installing-the-esp32-board-in-arduino-ide-windows-instructions/) to get the ESP-32 board manager installed for Arduino
 1. Select the port the ESP-32 is connected to computer as
       1. `COM##` on Windows
       1. `/dev/cu.####` on Mac
