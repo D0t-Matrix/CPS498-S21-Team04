@@ -384,7 +384,9 @@ public class MainActivity extends AppCompatActivity {
      * @param v
      */
     public void onPreset1Clicked(View v){
+        //Generates a new thread for the Bluetooth information to be sent on.
         new Thread(() -> {
+
             BluetoothManager manager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
             bluetoothAdapter = manager.getAdapter();
             checkBTPermissions();
@@ -392,6 +394,7 @@ public class MainActivity extends AppCompatActivity {
             System.out.println(esp32.getName());
             BluetoothSocket btSocket = null;
 
+            //Connects to the Bluetooth socket of the ESP-32 using the apps UUID.
             int counter = 0;
             do {
                 try {
@@ -408,7 +411,10 @@ public class MainActivity extends AppCompatActivity {
             try {
                 OutputStream outputStream = btSocket.getOutputStream();
 
+                //Gets the state of each of the channels for the preset.
                 boolean[] ar = {preset1.channel1, preset1.channel2, preset1.channel3, preset1.channel4, preset1.channel5, preset1.channel6, preset1.channel7, preset1.channel8};
+
+                //Converts the boolean array into hex.
                 String binaryStr = "";
                 for (boolean bit : ar)
                     binaryStr += bit ? "1" : "0";
@@ -417,6 +423,7 @@ public class MainActivity extends AppCompatActivity {
 
                 System.out.println("Hex of boolean values: " + hexStr); //For demo purposes
 
+                //Sends the state of the channels formatted into hex to the ESP-32
                 outputStream.write(hexStr.getBytes());
 
 
@@ -425,6 +432,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+            //Closes the Bluetooth socket.
             try{
                 btSocket.close();
             }catch (IOException e){
@@ -434,6 +442,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onPreset2Clicked(View v){
+        //Generates a new thread for the Bluetooth information to be sent on.
         new Thread(() -> {
 
             BluetoothManager manager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
@@ -441,6 +450,8 @@ public class MainActivity extends AppCompatActivity {
             BluetoothDevice esp32 = bluetoothAdapter.getRemoteDevice("84:CC:A8:5C:F4:8E");
             System.out.println(esp32.getName());
             BluetoothSocket btSocket = null;
+
+            //Connects to the Bluetooth socket of the ESP-32 using the apps UUID.
             int counter = 0;
             do {
                 try {
@@ -456,7 +467,11 @@ public class MainActivity extends AppCompatActivity {
 
             try{
                 OutputStream outputStream = btSocket.getOutputStream();
+
+                //Gets the state of each of the channels for the preset.
                 boolean[] ar = {preset2.channel1, preset2.channel2, preset2.channel3, preset2.channel4, preset2.channel5, preset2.channel6, preset2.channel7, preset2.channel8};
+
+                //Converts the boolean array into hex.
                 String binaryStr = "";
                 for (boolean bit : ar)
                     binaryStr += bit ? "1" : "0";
@@ -465,6 +480,7 @@ public class MainActivity extends AppCompatActivity {
 
                 System.out.println("Hex of boolean values: " + hexStr); //For demo purposes
 
+                //Sends the state of the channels formatted into hex to the ESP-32
                 outputStream.write(hexStr.getBytes());
 
 
@@ -473,6 +489,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+            //Closes the Bluetooth socket.
             try{
                 btSocket.close();
             }catch (IOException e){
@@ -482,15 +499,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onPreset3Clicked(View v){
+        //Generates a new thread for the Bluetooth information to be sent on.
         new Thread(() -> {
             checkBTPermissions();
             BluetoothManager manager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
             bluetoothAdapter = manager.getAdapter();
             BluetoothDevice esp32 = bluetoothAdapter.getRemoteDevice("84:CC:A8:5C:F4:8E");
             System.out.println(esp32.getName());
-
             BluetoothSocket btSocket = null;
 
+            //Connects to the Bluetooth socket of the ESP-32 using the apps UUID.
             int counter = 0;
             do {
                 try {
@@ -506,7 +524,11 @@ public class MainActivity extends AppCompatActivity {
 
             try{
                 OutputStream outputStream = btSocket.getOutputStream();
+
+                //Gets the state of each of the channels for the preset.
                 boolean[] ar = {preset3.channel1, preset3.channel2, preset3.channel3, preset3.channel4, preset3.channel5, preset3.channel6, preset3.channel7, preset3.channel8};
+
+                //Converts the boolean array into hex.
                 String binaryStr = "";
                 for (boolean bit : ar)
                     binaryStr += bit ? "1" : "0";
@@ -515,6 +537,7 @@ public class MainActivity extends AppCompatActivity {
 
                 System.out.println("Hex of boolean values: " + hexStr); //For demo purposes
 
+                //Sends the state of the channels formatted into hex to the ESP-32
                 outputStream.write(hexStr.getBytes());
 
 
@@ -522,6 +545,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+            //Closes the Bluetooth socket.
             try{
                 btSocket.close();
             }catch (IOException e){
@@ -536,15 +560,16 @@ public class MainActivity extends AppCompatActivity {
      * @param v
      */
     public void onPreset4Clicked(View v){
+        //Generates a new thread for the Bluetooth information to be sent on.
         new Thread(() -> {
             checkBTPermissions();
             BluetoothManager manager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
             bluetoothAdapter = manager.getAdapter();
             BluetoothDevice esp32 = bluetoothAdapter.getRemoteDevice("84:CC:A8:5C:F4:8E");
             System.out.println(esp32.getName());
-
             BluetoothSocket btSocket = null;
 
+            //Connects to the Bluetooth socket of the ESP-32 using the apps UUID.
             int counter = 0;
             do {
                 try {
@@ -560,7 +585,11 @@ public class MainActivity extends AppCompatActivity {
 
             try{
                 OutputStream outputStream = btSocket.getOutputStream();
+
+                //Gets the state of each of the channels for the preset.
                 boolean[] ar = {preset4.channel1, preset4.channel2, preset4.channel3, preset4.channel4, preset4.channel5, preset4.channel6, preset4.channel7, preset4.channel8};
+
+                //Converts the boolean array into hex.
                 String binaryStr = "";
                 for (boolean bit : ar)
                     binaryStr += bit ? "1" : "0";
@@ -569,6 +598,7 @@ public class MainActivity extends AppCompatActivity {
 
                 System.out.println("Hex of boolean values: " + hexStr); //For demo purposes
 
+                //Sends the state of the channels formatted into hex to the ESP-32
                 outputStream.write(hexStr.getBytes());
 
 
@@ -576,6 +606,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+            //Closes the Bluetooth socket.
             try{
                 btSocket.close();
             }catch (IOException e){
@@ -586,16 +617,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onPreset5Clicked(View v){
-
+        //Generates a new thread for the Bluetooth information to be sent on.
         new Thread(() -> {
             checkBTPermissions();
             BluetoothManager manager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
             bluetoothAdapter = manager.getAdapter();
             BluetoothDevice esp32 = bluetoothAdapter.getRemoteDevice("84:CC:A8:5C:F4:8E");
             System.out.println(esp32.getName());
-
             BluetoothSocket btSocket = null;
 
+            //Connects to the Bluetooth socket of the ESP-32 using the apps UUID.
             int counter = 0;
             do {
                 try {
@@ -611,7 +642,11 @@ public class MainActivity extends AppCompatActivity {
 
             try{
                 OutputStream outputStream = btSocket.getOutputStream();
+
+                //Gets the state of each of the channels for the preset.
                 boolean[] ar = {preset5.channel1, preset5.channel2, preset5.channel3, preset5.channel4, preset5.channel5, preset5.channel6, preset5.channel7, preset5.channel8};
+
+                //Converts the boolean array into hex.
                 String binaryStr = "";
                 for (boolean bit : ar)
                     binaryStr += bit ? "1" : "0";
@@ -620,6 +655,7 @@ public class MainActivity extends AppCompatActivity {
 
                 System.out.println("Hex of boolean values: " + hexStr); //For demo purposes
 
+                //Sends the state of the channels formatted into hex to the ESP-32
                 outputStream.write(hexStr.getBytes());
 
 
@@ -627,6 +663,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+            //Closes the Bluetooth socket.
             try{
                 btSocket.close();
             }catch (IOException e){
@@ -638,16 +675,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onPreset6Clicked(View v) {
-
+        //Generates a new thread for the Bluetooth information to be sent on.
         new Thread(() -> {
             checkBTPermissions();
             BluetoothManager manager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
             bluetoothAdapter = manager.getAdapter();
             BluetoothDevice esp32 = bluetoothAdapter.getRemoteDevice("84:CC:A8:5C:F4:8E");
             System.out.println(esp32.getName());
-
             BluetoothSocket btSocket = null;
 
+            //Connects to the Bluetooth socket of the ESP-32 using the apps UUID.
             int counter = 0;
             do {
                 try {
@@ -663,7 +700,11 @@ public class MainActivity extends AppCompatActivity {
 
             try {
                 OutputStream outputStream = btSocket.getOutputStream();
+
+                //Gets the state of each of the channels for the preset.
                 boolean[] ar = {preset6.channel1, preset6.channel2, preset6.channel3, preset6.channel4, preset6.channel5, preset6.channel6, preset6.channel7, preset6.channel8};
+
+                //Converts the boolean array into hex.
                 String binaryStr = "";
                 for (boolean bit : ar)
                     binaryStr += bit ? "1" : "0";
@@ -672,6 +713,7 @@ public class MainActivity extends AppCompatActivity {
 
                 System.out.println("Hex of boolean values: " + hexStr); //For demo purposes
 
+                //Sends the state of the channels formatted into hex to the ESP-32
                 outputStream.write(hexStr.getBytes());
 
 
@@ -680,6 +722,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+            //Closes the Bluetooth socket.
             try {
                 btSocket.close();
             } catch (IOException e) {
