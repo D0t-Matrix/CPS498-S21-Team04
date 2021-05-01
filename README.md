@@ -7,7 +7,7 @@
 * [Title](#CPS498-S21-Team04)
 * [Introduction](#Introduction)
 
-* [Objectives & Functionality](#Objectives-&-Functionality)
+* [Objectives & Functionality](#Objectives-and-Functionality)
 
 * [Snapshots](#Snapshots)
   * [Home Page](#Home-Page)
@@ -29,7 +29,7 @@ The goals for the mobile application was to make an easy to navigate application
 Hardware design has been updated, due to needing to handle the signal noise introduced from so many different ground sources being connected at once. Electrically on the circuitry it posed a problem in causing noticeable static in the housing that could and would trigger the relays seemingly at random. On the sound fidelity side of the circuitry, it introduced large amounts of noise from ground loops and static due to weak and loose connections. Any actual wires used will be replaced with fully insulated 16 gauge stranded wire, to ensure enough wire density to reduce loss of fidelity, and enough insulation to avoid static causing RF interference.
 
 
-# Objectives & Functionality
+# Objectives and Functionality
 The mobile application was developed in android studio for the Google Pixel 3. Inside the application we gave the user the ability to easily customize up to six presets by pressing the pencil icon up in the top right corner of the app. This will bring up a screen that shows each one of the presets that can be edited. From there we made it so the user just has to click on one of the presets in order to bring up the editing page where they could select which channels to turn on and off and give the preset a custom name. After that the user clicks the save changes button to save the information for that preset into the Room Database. Then that preset is ready to use by clicking on it in the dashboard page where it will send the state of the presets channels via Bluetooth. The user is also able to give the home screen a custom background by pressing the image button on the home page which will bring them to their photos on their phone and they would simply select the photo  they want to set as their background.
 
  Hardware prototyping was done via designing the schematic in the program Fritzeng, then building parts of the schematic to test functionality. (Testing the relay schematic for just one channel to prove the Microcontroller was able to reliably control the device). Once each component was functional, the built parts were put together, and slowly scaled up to reach full-size. At various points the schematic was placed into the housing to test if the enclosure introduced static or other forms of electrical variance to cause trouble. This wasn’t shown in an intense manner until channel 6 and 7 was inserted. This caused a need to scale down for recording a video, and redesigning the schematic around reducing the issues present in the full-scale design.
