@@ -98,7 +98,7 @@ The software design is functional, but there are features that still need to be 
 ## Installing App to Android Device
 1. Ensure device has sidloading applications enabled
       1. Check in the Settings > Security > Unknown Sources checkbox.
-1. Download the `.apk` file [here](\.apks\app-release.apk) to android device
+1. Download the `.apk` file [here](/.apks/app-release.apk) to android device
 1. Open downloads folder and tap on `.apk` file
       1. Tap yes when prompted to install application
 
