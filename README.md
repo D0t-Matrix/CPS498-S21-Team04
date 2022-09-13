@@ -1,7 +1,7 @@
 # CPS498-S21-Team04
 ### Guitar Synth Manager
 
-
+> This Repo has been archived. It has been left public as it is from a class project in College.
 
 # Table of Contents
 * [Title](#CPS498-S21-Team04)
